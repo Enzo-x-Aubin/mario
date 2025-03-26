@@ -10,8 +10,8 @@ et la map.
 
     #define NbSprites 10 // À modifier si on ajouter des sprites
     #define Size_Sprite 40 // A modifier si on change taille sprite
-    #define LARGEUR_FENETRE 1200 //taille de la fenetre
-    #define HAUTEUR_FENETRE 1200 //taille de la fenetre
+    #define LARGEUR_FENETRE 800 //taille de la fenetre
+    #define HAUTEUR_FENETRE 800 //taille de la fenetre
 
     typedef struct Map Map;
     struct Map
