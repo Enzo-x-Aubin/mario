@@ -9,6 +9,13 @@ Attention la map doit déjà être chargé avant de créer un charactère.
     
     #include <SDL2/SDL.h>
     #include "file.h"
+    #define MARIO_DROITE 0
+    #define MARIO_DROITE_COURS 1
+    #define MARIO_DROITE_SAUT 2
+    #define MARIO_GAUCHE 3
+    #define MARIO_GAUCHE_COURS 4
+    #define MARIO_GAUCHE_SAUT 5
+
 
     #define WIDTH_MARIO 30 //largeur des images mario
     #define HEIGHT_MARIO 40 //hauteur des images mario

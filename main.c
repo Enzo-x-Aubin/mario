@@ -10,7 +10,7 @@
 //ligne de compilation gcc main.c file.c game.c event.c charactere.c -o mario -lSDL2main -lSDL2_image -lSDL2
 
 void init(SDL_Window **window, SDL_Renderer **renderer, SDL_Texture **texture, int w, int h);
-void end_game(SDL_Window **window, SDL_Renderer **renderer, SDL_Texture **texture);
+void end_game(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *texture);
 
 int main(int argc, char *argv[])
 {
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 				break;
 		}
 	}
-	end_game(&menu, &renderer_menu, &img_menu);
+	end_game(menu, renderer_menu, img_menu);
 
 	return 0;
 }
@@ -79,9 +79,9 @@ void init(SDL_Window **window, SDL_Renderer **renderer, SDL_Texture **texture, i
 	SDL_RenderPresent(*renderer);
 }
 
-void end_game(SDL_Window **window, SDL_Renderer **renderer, SDL_Texture **texture){
-	SDL_DestroyTexture(*texture);
-	SDL_DestroyRenderer(*renderer);
-	SDL_DestroyWindow(*window);
+void end_game(SDL_Window *window, SDL_Renderer *renderer, SDL_Texture *texture){
+	SDL_DestroyTexture(texture);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
