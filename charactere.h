@@ -38,5 +38,6 @@ Attention la map doit déjà être chargé avant de créer un charactère.
 
     
     void freePersonnage(Personnage* mario, Personnage **goomba, int nbGoomba);
+    void init_mario(Personnage *mario, SDL_Renderer *renderer, SDL_Rect pos);
     
 #endif

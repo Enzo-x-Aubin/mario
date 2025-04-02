@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include "charactere.h"
 
-void init_mario(Personnage *mario, SDL_Renderer *renderer, SDL_Rect pos);
-
 void freePersonnage(Personnage* mario, Personnage **goomba, int nbGoomba) {
     
 }
@@ -21,7 +19,7 @@ void init_mario(Personnage *mario, SDL_Renderer *renderer, SDL_Rect pos){
     mario->jumptime = 0;
     mario->gravite = 0;
     mario->direction = 0;
-    mario->dernieredirection = 1;
+    mario->dernieredirection = 0;
     mario->temp = 0;
     mario->win = 0; 
     mario->invisible = 0;

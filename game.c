@@ -7,19 +7,22 @@ int jouer(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 255,255,255,120);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
+	//charger image et personnage. 
     SDL_Rect position_initiale = {100, 100, WIDTH_MARIO, HEIGHT_MARIO};
     Personnage mario;
     init_mario(&mario, renderer, position_initiale);
-	//charger image et personnage. 
-    SDL_RenderCopy(renderer, mario.image[MARIO_DROITE   ], NULL, &position_initiale);
-    SDL_RenderPresent(renderer);
+    int img_mario = MARIO_DROITE;
 
     int continuer = 1; //a utiliser pour savoir si on continue la boucle du jeu ou si on arrête. 
     SDL_Event events;
     
     while(continuer){ //coeur du jeu ici, les actions seront repété pour faire le déplacement des différentes images, ...
-        //gérer les différentes actions. 
-        
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, mario.image[img_mario], NULL, &mario.position);
+        SDL_RenderPresent(renderer);
+        SDL_PollEvent(&events);
+        continuer = event(&mario, renderer, events, &img_mario);
+        deplacer(&mario);
         
     }
     

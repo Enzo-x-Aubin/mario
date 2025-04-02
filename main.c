@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 						SDL_Log("1 Pressé");
 						SDL_DestroyTexture(img_menu);
 						jouer(renderer_menu);
+						done = true;
 						break;
 					case SDLK_2:
 					case SDLK_KP_2:
