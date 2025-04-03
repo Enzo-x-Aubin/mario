@@ -8,7 +8,7 @@ int jouer(SDL_Renderer* renderer) {
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 	//charger image et personnage. 
-    SDL_Rect position_initiale = {100, 100, WIDTH_MARIO, HEIGHT_MARIO};
+    SDL_Rect position_initiale = {400, 400, WIDTH_MARIO, HEIGHT_MARIO};
     Personnage mario;
     init_mario(&mario, renderer, position_initiale);
     int img_mario = MARIO_DROITE;
