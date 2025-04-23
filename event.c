@@ -3,7 +3,8 @@
 
 void deplacer(Personnage *mario);
 int statique(Personnage *mario);
-int saut(Personnage *mario);
+void saut(Personnage *mario, int *img);
+void afficher_mario(Personnage *mario, int *img);
 
 int event(Personnage *mario, SDL_Renderer *renderer, SDL_Event event, int *img){
     switch (event.type){
@@ -14,17 +15,14 @@ int event(Personnage *mario, SDL_Renderer *renderer, SDL_Event event, int *img){
             switch (event.key.keysym.sym){
                 case SDLK_RIGHT:
                     mario->direction = 1;
-                    *img = MARIO_DROITE_COURS;
+                    mario->dernieredirection = mario->direction;
                     break;
                 case SDLK_LEFT:
                     mario->direction = 2;
-                    *img = MARIO_GAUCHE_COURS;
+                    mario->dernieredirection = mario->direction;
                     break;
                 case SDLK_UP:
                     mario->jump = 1;
-                    SDL_Log("%d", mario->jump);
-                    saut(mario);
-                    SDL_Log("%d", mario->jump);
                     break;
                 case SDLK_ESCAPE:
                     return 0;
@@ -37,7 +35,6 @@ int event(Personnage *mario, SDL_Renderer *renderer, SDL_Event event, int *img){
             switch(event.key.keysym.sym){
                 case SDLK_RIGHT:
                 case SDLK_LEFT:
-                    mario->dernieredirection = mario->direction;
                     mario->direction = 0;
                     *img = statique(mario);
                     break;
@@ -56,9 +53,6 @@ void deplacer(Personnage *mario){
     } else if(mario->direction == 2){
         mario->position.x -= 1;
     }
-    if(mario->jump){
-        
-    }
 }
 
 int statique(Personnage *mario){
@@ -69,14 +63,41 @@ int statique(Personnage *mario){
     }
 }
 
-int saut(Personnage *mario){
-    for(int i=0;i<70;i++){
+void saut(Personnage *mario, int *img){
+    if(mario->jump == 1){
         mario->position.y -= 1;
-        SDL_Delay(0.5);
+        mario->jumptime += 1;
     }
-    for(int i=70;i>0;i--){
+    if(mario->jumptime >= 70){
+        mario->jump = 0;
+    }
+    if(mario->jumptime > 0 && mario->jump == 0){
         mario->position.y += 1;
-        SDL_Delay(0.5);
+        mario->jumptime -= 1;
     }
-    return 0;
+    if(mario->jump == 0 && mario->jumptime == 0){
+        *img = statique(mario);
+    }
+}
+
+void afficher_mario(Personnage *mario, int *img){
+    if(mario->direction == 1){
+        if(mario->jumptime > 0){
+            *img = MARIO_DROITE_SAUT;
+        } else {
+            *img = MARIO_DROITE_COURS;
+        }
+    } else if(mario->direction == 2){
+        if(mario->jumptime > 0){
+            *img = MARIO_GAUCHE_SAUT;
+        } else {
+            *img = MARIO_GAUCHE_COURS;
+        }
+    }else if(mario->jumptime > 0){
+        if(mario->dernieredirection == 1){
+            *img = MARIO_DROITE_SAUT;
+        } else if(mario->dernieredirection == 2){
+            *img = MARIO_GAUCHE_SAUT;
+        }
+    }
 }

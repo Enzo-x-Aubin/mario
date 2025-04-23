@@ -11,6 +11,9 @@ et si le niveau est fini (win et loose).
 
     int event(Personnage *mario, SDL_Renderer *renderer, SDL_Event event, int *img);
     void deplacer(Personnage *mario);
+    void saut(Personnage *mario, int *img);
+    void afficher_mario(Personnage *mario, int *img);
+
 
   
 #endif

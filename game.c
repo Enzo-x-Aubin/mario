@@ -22,8 +22,9 @@ int jouer(SDL_Renderer* renderer) {
         SDL_RenderPresent(renderer);
         SDL_PollEvent(&events);
         continuer = event(&mario, renderer, events, &img_mario);
+        afficher_mario(&mario, &img_mario);
         deplacer(&mario);
-        
+        saut(&mario, &img_mario);
     }
     
 	//a vous de compléter, au fur et à mesure, les deux fonctions en dessous pour bien faire le nettoyage. 
