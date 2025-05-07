@@ -4,32 +4,59 @@
 #include "event.h"
 
 int jouer(SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 255,255,255,120);
+
+    // Initialisation de la map
+    Map map = {0};
+    LireLevel0(&map);
+
+    // Initialisation des sprites
+    Sprites sprites[NbSprites];
+    InitialiserSprites(sprites, renderer);
+    // Configuration de la couleur de fond (blanc)
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 	//charger image et personnage. 
-    SDL_Rect position_initiale = {400, 400, WIDTH_MARIO, HEIGHT_MARIO};
+    SDL_Rect position_initiale = {30, 810, WIDTH_MARIO, HEIGHT_MARIO};
     Personnage mario;
     init_mario(&mario, renderer, position_initiale);
     int img_mario = MARIO_DROITE;
 
     int continuer = 1; //a utiliser pour savoir si on continue la boucle du jeu ou si on arrête. 
     SDL_Event events;
-    
+    int spriteNum;
     while(continuer){ //coeur du jeu ici, les actions seront repété pour faire le déplacement des différentes images, ...
         SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, mario.image[img_mario], NULL, &mario.position);
-        SDL_RenderPresent(renderer);
+        AfficherMapAvecSprites(&map, sprites, renderer); // Afficher la map avec les sprites
         SDL_PollEvent(&events);
         continuer = event(&mario, renderer, events, &img_mario);
         afficher_mario(&mario, &img_mario);
         deplacer(&mario);
         saut(&mario, &img_mario);
+        spriteNum = map.LoadedMap[mario.position.y/Size_Sprite][mario.position.x/Size_Sprite];
+        if(sprites[spriteNum].traverser == 1){
+            SDL_Log("%d: Le bloc est traversable", spriteNum);
+        } else{
+            SDL_Log("%d: Le bloc n'est pas traversable", spriteNum);
+        }
+        SDL_RenderCopy(renderer, mario.image[img_mario], NULL, &mario.position);
+        SDL_RenderPresent(renderer);
     }
     
 	//a vous de compléter, au fur et à mesure, les deux fonctions en dessous pour bien faire le nettoyage. 
     //LibererMap(map, sprites);
-    //freePersonnage(mario, goomba, nbGoomba);
+    //freePersonnage(mario, goomba, nbGoomba)
+
+    // Libération des ressources une fois le jeu terminé
+    for (int i = 0; i < map.height; i++) {
+        free(map.LoadedMap[i]); // Libération de chaque ligne du tableau
+    }
+    free(map.LoadedMap); // Libération du tableau principal
+
+    for (int i = 0; i < NbSprites; i++) {
+        SDL_DestroyTexture(sprites[i].sprite); // Libération des textures des sprites
+    }
 
     return continuer;
 }
@@ -44,72 +71,6 @@ void AfficherMapAvecSprites(Map* map, Sprites* sprites, SDL_Renderer* renderer) 
             }
         }
     }
-}
-
-int jouer(SDL_Renderer* renderer) {
-    // Charger l'image et le personnage
-    
-    // Initialisation de la map
-    Map map = {0};
-    LireLevel0(&map);
-
-    // Initialisation des sprites
-    Sprites sprites[NbSprites];
-    InitialiserSprites(sprites, renderer);
-
-    // Initialisation des variables
-    int continuer = 1; // À utiliser pour savoir si on continue la boucle du jeu ou si on arrête
-    SDL_Event event;   // Déclaration de l'événement
-
-    // Configuration de la couleur de fond (blanc)
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-
-    while (continuer) { // Coeur du jeu ici
-        SDL_RenderClear(renderer);
-
-        // Afficher la map avec les sprites
-        AfficherMapAvecSprites(&map, sprites, renderer);
-
-        SDL_RenderPresent(renderer);
-
-        while (SDL_PollEvent(&event)) {  // Boucle qui gère les événements
-            switch (event.type) {
-                case SDL_QUIT:  // Si l'utilisateur ferme la fenêtre
-                    continuer = 0;
-                    break;
-
-                case SDL_KEYDOWN:  // Si une touche est pressée
-                    switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:  // Si la touche échappe est pressée
-                            continuer = 0;
-                            break;
-
-                        case SDLK_1:  // Si la touche '1' est pressée
-                            AfficherMapAvecSprites(&map, sprites, renderer); // Afficher la map avec les sprites
-                            break;
-
-                        default:
-                            break;
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    }
-
-    // Libération des ressources une fois le jeu terminé
-    for (int i = 0; i < map.height; i++) {
-        free(map.LoadedMap[i]); // Libération de chaque ligne du tableau
-    }
-    free(map.LoadedMap); // Libération du tableau principal
-
-    for (int i = 0; i < NbSprites; i++) {
-        SDL_DestroyTexture(sprites[i].sprite); // Libération des textures des sprites
-    }
-
-    return continuer;  // Retourne la valeur de "continuer" pour quitter ou non
 }
 
 void InitialiserSprites(Sprites* sprites, SDL_Renderer* renderer) {

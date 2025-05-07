@@ -17,8 +17,8 @@ Attention la map doit déjà être chargé avant de créer un charactère.
     #define MARIO_GAUCHE_SAUT 5
 
 
-    #define WIDTH_MARIO 30 //largeur des images mario
-    #define HEIGHT_MARIO 40 //hauteur des images mario
+    #define WIDTH_MARIO 22.5 //largeur des images mario
+    #define HEIGHT_MARIO 30 //hauteur des images mario
     #define NUMBER_IMAGE_MARIO 6 //nombre d'image de mario en tout
 
     typedef struct Personnage Personnage;

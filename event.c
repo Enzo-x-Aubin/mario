@@ -49,9 +49,9 @@ int event(Personnage *mario, SDL_Renderer *renderer, SDL_Event event, int *img){
 
 void deplacer(Personnage *mario){
     if(mario->direction == 1){
-        mario->position.x += 1;
+        mario->position.x += 2;
     } else if(mario->direction == 2){
-        mario->position.x -= 1;
+        mario->position.x -= 2;
     }
 }
 
@@ -65,15 +65,15 @@ int statique(Personnage *mario){
 
 void saut(Personnage *mario, int *img){
     if(mario->jump == 1){
-        mario->position.y -= 1;
-        mario->jumptime += 1;
+        mario->position.y -= 2;
+        mario->jumptime += 2;
     }
     if(mario->jumptime >= 70){
         mario->jump = 0;
     }
     if(mario->jumptime > 0 && mario->jump == 0){
-        mario->position.y += 1;
-        mario->jumptime -= 1;
+        mario->position.y += 2;
+        mario->jumptime -= 2;
     }
     if(mario->jump == 0 && mario->jumptime == 0){
         *img = statique(mario);
