@@ -32,14 +32,8 @@ int jouer(SDL_Renderer* renderer) {
         SDL_PollEvent(&events);
         continuer = event(&mario, renderer, events, &img_mario);
         afficher_mario(&mario, &img_mario);
-        deplacer(&mario);
+        deplacer(&mario, map, sprites);
         saut(&mario, &img_mario);
-        spriteNum = map.LoadedMap[mario.position.y/Size_Sprite][mario.position.x/Size_Sprite];
-        if(sprites[spriteNum].traverser == 1){
-            SDL_Log("%d: Le bloc est traversable", spriteNum);
-        } else{
-            SDL_Log("%d: Le bloc n'est pas traversable", spriteNum);
-        }
         SDL_RenderCopy(renderer, mario.image[img_mario], NULL, &mario.position);
         SDL_RenderPresent(renderer);
     }
@@ -75,26 +69,26 @@ void AfficherMapAvecSprites(Map* map, Sprites* sprites, SDL_Renderer* renderer) 
 
 void InitialiserSprites(Sprites* sprites, SDL_Renderer* renderer) {
     sprites[0].sprite = loadImage("img/sky.png", renderer);
-    sprites[0].traverser = 1; // Le ciel est traversable
+    sprites[0].traverser = 0; // Le ciel est traversable
 
     sprites[1].sprite = loadImage("img/sol.png", renderer);
-    sprites[1].traverser = 0; // Le sol n'est pas traversable
+    sprites[1].traverser = 1; // Le sol n'est pas traversable
 
     sprites[2].sprite = loadImage("img/block.png", renderer);
-    sprites[2].traverser = 0; // Le bloc de pierre n'est pas traversable
+    sprites[2].traverser = 1; // Le bloc de pierre n'est pas traversable
 
     sprites[3].sprite = loadImage("img/boite.png", renderer);
-    sprites[3].traverser = 0; // La boîte n'est pas traversable
+    sprites[3].traverser = 1; // La boîte n'est pas traversable
 
     sprites[4].sprite = loadImage("img/tuyau1.png", renderer);
-    sprites[4].traverser = 0; // Tuyau partie 1
+    sprites[4].traverser = 1; // Tuyau partie 1
 
     sprites[5].sprite = loadImage("img/tuyau2.png", renderer);
-    sprites[5].traverser = 0; // Tuyau partie 2
+    sprites[5].traverser = 1; // Tuyau partie 2
 
     sprites[6].sprite = loadImage("img/tuyau3.png", renderer);
-    sprites[6].traverser = 0; // Tuyau partie 3
+    sprites[6].traverser = 1; // Tuyau partie 3
 
     sprites[7].sprite = loadImage("img/tuyau4.png", renderer);
-    sprites[7].traverser = 0; // Tuyau partie 4
+    sprites[7].traverser = 1; // Tuyau partie 4
 }

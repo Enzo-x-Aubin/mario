@@ -10,9 +10,10 @@ et si le niveau est fini (win et loose).
     #include "charactere.h"
 
     int event(Personnage *mario, SDL_Renderer *renderer, SDL_Event event, int *img);
-    void deplacer(Personnage *mario);
+    void deplacer(Personnage *mario, Map map, Sprites *sprites);
     void saut(Personnage *mario, int *img);
     void afficher_mario(Personnage *mario, int *img);
+    int collision(Personnage mario, Map map, Sprites *sprites);
 
 
   

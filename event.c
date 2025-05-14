@@ -1,7 +1,6 @@
 #include "event.h"
 #include "charactere.h"
 
-void deplacer(Personnage *mario);
 int statique(Personnage *mario);
 void saut(Personnage *mario, int *img);
 void afficher_mario(Personnage *mario, int *img);
@@ -47,11 +46,19 @@ int event(Personnage *mario, SDL_Renderer *renderer, SDL_Event event, int *img){
     return 1;
 }
 
-void deplacer(Personnage *mario){
+void deplacer(Personnage *mario, Map map, Sprites *sprites){
     if(mario->direction == 1){
-        mario->position.x += 2;
+        if(collision(*mario, map, sprites) == 0){
+            mario->position.x += 2;
+        } else {
+            return;
+        }
     } else if(mario->direction == 2){
-        mario->position.x -= 2;
+        if(collision(*mario, map, sprites) == 0){
+            mario->position.x -= 2;
+        } else {
+            return;
+        }
     }
 }
 
@@ -98,6 +105,32 @@ void afficher_mario(Personnage *mario, int *img){
             *img = MARIO_DROITE_SAUT;
         } else if(mario->dernieredirection == 2){
             *img = MARIO_GAUCHE_SAUT;
+        }
+    }
+}
+
+int collision(Personnage mario, Map map, Sprites *sprites){
+    SDL_Rect temp = mario.position;
+    SDL_Rect block = map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)+1];
+    if(mario.direction == 1){
+        int spriteNum = map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)+1];
+        temp.x += 2;
+        if(sprites[spriteNum].traverser == 1){
+            if(SDL_HasIntersection(&temp, &map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)+1])){
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    } else if(mario.direction == 2){
+        int spriteNum = map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)-1];
+        temp.x -= 2;
+        if(sprites[spriteNum].traverser == 1){
+            if(SDL_HasIntersection(&temp, &map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)-1])){
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 }
