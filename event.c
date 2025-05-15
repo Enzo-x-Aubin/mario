@@ -111,12 +111,12 @@ void afficher_mario(Personnage *mario, int *img){
 
 int collision(Personnage mario, Map map, Sprites *sprites){
     SDL_Rect temp = mario.position;
-    SDL_Rect block = map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)+1];
+    SDL_Rect block = {(mario.position.x/Size_Sprite)*Size_Sprite, (mario.position.y/Size_Sprite)*Size_Sprite, Size_Sprite, Size_Sprite};
     if(mario.direction == 1){
         int spriteNum = map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)+1];
         temp.x += 2;
         if(sprites[spriteNum].traverser == 1){
-            if(SDL_HasIntersection(&temp, &map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)+1])){
+            if(SDL_HasIntersection(&temp, &block)){
                 return 1;
             } else {
                 return 0;
@@ -126,7 +126,7 @@ int collision(Personnage mario, Map map, Sprites *sprites){
         int spriteNum = map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)-1];
         temp.x -= 2;
         if(sprites[spriteNum].traverser == 1){
-            if(SDL_HasIntersection(&temp, &map.LoadedMap[(mario.position.y/Size_Sprite)][(mario.position.x/Size_Sprite)-1])){
+            if(SDL_HasIntersection(&temp, &block)){
                 return 1;
             } else {
                 return 0;
