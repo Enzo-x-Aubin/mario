@@ -2,10 +2,9 @@
 
 #include "file.h"
 
-// 
-  Cette fonction permet de charger une image dans une SDL_Texture avec l'option SDL_TEXTUREACCESS_TARGET 
+// Cette fonction permet de charger une image dans une SDL_Texture avec l'option SDL_TEXTUREACCESS_TARGET 
   pour pouvoir modifier la texture après coup. 
- /
+ 
 SDL_Texture *loadImage(const char path[], SDL_Renderer *renderer)
 {
     SDL_Surface *surface = NULL; 
